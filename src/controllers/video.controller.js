@@ -9,6 +9,12 @@ const createVideo = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(user);
 });
 
+const getVideos = catchAsync(async (req, res) => {
+  const user = await videoService.queryVideos(req.body);
+  res.status(httpStatus.CREATED).send(user);
+});
+
 module.exports = {
   createVideo,
+  getVideos
 };

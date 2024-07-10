@@ -4,6 +4,10 @@ const { password, objectId } = require('./custom.validation');
 const createVideo = {
   body: Joi.object().keys({
     name: Joi.string().required(),
+    language: Joi.string().required(),
+    categories: Joi.string().required(),
+    upload: Joi.string().required(),
+    description: Joi.string().required(),
   }),
 };
 

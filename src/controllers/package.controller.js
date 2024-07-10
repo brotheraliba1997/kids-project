@@ -9,7 +9,7 @@ const createPackage = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(user);
 });
 
-const getAllPackage = catchAsync(async (req, res) => {
+const getAllPackages = catchAsync(async (req, res) => {
   const user = await packageService.getAllPackages();
   console.log(user);
   res.status(httpStatus.CREATED).send(user);
@@ -17,5 +17,5 @@ const getAllPackage = catchAsync(async (req, res) => {
 
 module.exports = {
   createPackage,
-  getAllPackage,
+  getAllPackages,
 };

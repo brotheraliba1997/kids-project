@@ -8,7 +8,12 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 const createPackage = async (userBody) => {
-  return Package.create(userBody);
+  try {
+    return Package.create(userBody);
+  } catch (err) {
+    console.error('Error fetching packages:', err);
+    throw new ApiError(httpStatus.BAD_REQUEST, err) 
+   }
 };
 
 const getAllPackages = async () => {

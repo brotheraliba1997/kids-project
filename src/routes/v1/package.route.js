@@ -9,7 +9,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(packageController.getAllPackage)
+  .get(packageController.getAllPackages)
   .post(validate(packageValidation.createPackage), packageController.createPackage);
 
 module.exports = router;

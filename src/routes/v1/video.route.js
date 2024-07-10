@@ -6,8 +6,8 @@ const videoController = require('../../controllers/video.controller');
 
 const router = express.Router();
 
-router.route('/').post(validate(videoValidation.createVideo), videoController.createVideo);
-// .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+router.route('/').post(validate(videoValidation.createVideo), videoController.createVideo)
+// .get(auth('getUsers'), validate(userValidation.getUsers), userController.getVideos);
 
 module.exports = router;
 

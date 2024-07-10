@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Package } = require('../models');
+const { Video } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -8,11 +8,22 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 const createVideo = async (userBody) => {
-  // if (await User.isEmailTaken(userBody.email)) {
-  //   throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-  console.log(userBody);
-  // }
-  // return Package.create(userBody);
+  try {
+    const contact = await Video.create(userBody);
+    return contact;
+  } catch (err) {
+    throw new ApiError(httpStatus.BAD_REQUEST, err);
+  }
+};
+
+const queryVideos = async () => {
+  try {
+    const videos = await Video.find()
+    .sort({ createdAt: -1 });
+    return videos;
+  } catch (err) {
+    throw new ApiError(httpStatus.BAD_REQUEST, err);
+  }
 };
 
 /**
@@ -52,4 +63,5 @@ const createVideo = async (userBody) => {
 
 module.exports = {
   createVideo,
+  queryVideos,
 };
