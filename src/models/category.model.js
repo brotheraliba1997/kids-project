@@ -11,8 +11,9 @@ const categorySchema = mongoose.Schema(
 
     softDelete: {
       type: Boolean,
-      required: true,
+      
     },
+    
   },
   {
     timestamps: true,
