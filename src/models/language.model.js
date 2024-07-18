@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { toJSON } = require('./plugins');
 const { tokenTypes } = require('../config/tokens');
 
-const categorySchema = mongoose.Schema(
+const LanguageSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -11,7 +11,6 @@ const categorySchema = mongoose.Schema(
 
     softDelete: {
       type: Boolean,
-      required: true,
     },
   },
   {
@@ -20,11 +19,11 @@ const categorySchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-categorySchema.plugin(toJSON);
+LanguageSchema.plugin(toJSON);
 
 /**
  * @typedef Token
  */
-const Category = mongoose.model('Category', categorySchema);
+const Language = mongoose.model('Language', LanguageSchema);
 
-module.exports = Category;
+module.exports = Language;

@@ -12,8 +12,8 @@ const createPackage = async (userBody) => {
     return Package.create(userBody);
   } catch (err) {
     console.error('Error fetching packages:', err);
-    throw new ApiError(httpStatus.BAD_REQUEST, err) 
-   }
+    throw new ApiError(httpStatus.BAD_REQUEST, err);
+  }
 };
 
 const getAllPackages = async () => {

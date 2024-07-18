@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Package, Category } = require('../models');
+const { Language } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -7,32 +7,32 @@ const ApiError = require('../utils/ApiError');
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createCategory = async (userBody) => {
+const createLanguage = async (userBody) => {
   try {
-    return Category.create(userBody);
+    return Language.create(userBody);
   } catch (err) {
-    console.error('Error fetching packages:', err);
+    console.error('Error fetching Language:', err);
     throw new ApiError(httpStatus.BAD_REQUEST, err);
   }
 };
 
-const getAllCategory = async () => {
+const getAllLanguages = async () => {
   try {
-    return await Category.find();
+    return await Language.find();
   } catch (err) {
-    console.error('Error fetching packages:', err);
+    console.error('Error fetching Language:', err);
     throw err;
   }
 };
 
-const updateCategory = async (id, updateBody) => {
-  const updateOneCategory = await Category.findById(id);
-  if (!updateOneCategory) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
+const updateLanguage = async (id, updateBody) => {
+  const updateOneLanguage = await Language.findById(id);
+  if (!updateOneLanguage) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'language not found');
   }
-  Object.assign(updateOneCategory, updateBody);
-  await updateOneCategory.save();
-  return updateOneCategory;
+  Object.assign(updateOneLanguage, updateBody);
+  await updateOneLanguage.save();
+  return updateOneLanguage;
 };
 
 /**
@@ -101,9 +101,9 @@ const deleteUserById = async (userId) => {
 };
 
 module.exports = {
-  createCategory,
-  getAllCategory,
-  updateCategory,
+  updateLanguage,
+  getAllLanguages,
+  createLanguage,
   queryUsers,
   getUserById,
   getUserByEmail,

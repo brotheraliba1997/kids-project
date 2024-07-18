@@ -9,13 +9,21 @@ const createCategory = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(user);
 });
 
-const getAllCategory = catchAsync(async (req, res) => {
+const getAllCategories = catchAsync(async (req, res) => {
   const user = await categoryService.getAllCategory();
+  console.log(user);
+  res.status(httpStatus.CREATED).send(user);
+});
+
+const updateCategory = catchAsync(async (req, res) => {
+  const { categoryId } = req.params;
+  const user = await categoryService.updateCategory(categoryId, req.body);
   console.log(user);
   res.status(httpStatus.CREATED).send(user);
 });
 
 module.exports = {
   createCategory,
-  getAllCategory,
+  getAllCategories,
+  updateCategory,
 };

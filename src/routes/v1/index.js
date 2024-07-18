@@ -4,6 +4,7 @@ const userRoute = require('./user.route');
 const packageRoute = require('./package.route');
 const videoRoute = require('./video.route');
 const categoryRoute = require('./category.route');
+const languageRoute = require('./language.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -31,6 +32,11 @@ const defaultRoutes = [
   {
     path: '/category',
     route: categoryRoute,
+  },
+
+  {
+    path: '/language',
+    route: languageRoute,
   },
 ];
 

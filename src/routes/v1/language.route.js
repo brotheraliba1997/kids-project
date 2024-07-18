@@ -1,19 +1,19 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const categoryValidation = require('../../validations/category.validation');
-const categoryController = require('../../controllers/category.controller');
+const languageValidation = require('../../validations/language.validation');
+const languageController = require('../../controllers/language.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .get(auth('getCategories'), validate(categoryValidation.getCategory), categoryController.getAllCategories)
-  .post(auth('manageCategories'), validate(categoryValidation.createCategory), categoryController.createCategory);
+  .get(auth('getCategories'), validate(languageValidation.getLanguage), languageController.getAllLanguages)
+  .post(auth('manageCategories'), validate(languageValidation.createLanguage), languageController.createLanguage);
 
 router
-  .route('/:categoryId')
-  .patch(auth('manageCategories'), validate(categoryValidation.updateCategory), categoryController.updateCategory);
+  .route('/:languageId')
+  .patch(auth('manageCategories'), validate(languageValidation.updateLanguage), languageController.updateLanguage);
 
 module.exports = router;
 
