@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { toJSON } = require('./plugins');
 const { tokenTypes } = require('../config/tokens');
 
-const videoSchema = mongoose.Schema(
+const videoUploadSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -10,24 +10,29 @@ const videoSchema = mongoose.Schema(
     },
 
     language: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Language',
+      required: true,
+    },
+
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true,
+    },
+
+    source: {
       type: String,
       required: true,
     },
 
-    categories: {
-      type: String,
-      required: true,
-      enum: ['culture', 'language', 'others'],
-    },
-
-    upload: {
+    thumbnail: {
       type: String,
       required: true,
     },
 
-    description: {
+    Description: {
       type: String,
-      required: true,
     },
   },
   {
@@ -36,11 +41,11 @@ const videoSchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-videoSchema.plugin(toJSON);
+videoUploadSchema.plugin(toJSON);
 
 /**
  * @typedef Token
  */
-const Video = mongoose.model('video', videoSchema);
+const UploadVideo = mongoose.model('Upload', videoUploadSchema);
 
-module.exports = Video;
+module.exports = UploadVideo;

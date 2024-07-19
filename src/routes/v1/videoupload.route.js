@@ -6,8 +6,14 @@ const videoController = require('../../controllers/video.controller');
 
 const router = express.Router();
 
-router.route('/').post(validate(videoValidation.createVideo), videoController.createVideo)
-// .get(auth('getUsers'), validate(userValidation.getUsers), userController.getVideos);
+router
+  .route('/')
+  .get(auth('getCategories'), validate(videoValidation.getVideo), videoController.getAllVideos)
+  .post(auth('manageCategories'), validate(videoValidation.createVideo), videoController.createVideo);
+
+router
+  .route('/:videoId')
+  .patch(auth('manageCategories'), validate(videoValidation.updateVideos), videoController.updateVideo);
 
 module.exports = router;
 

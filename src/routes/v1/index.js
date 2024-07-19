@@ -2,9 +2,9 @@ const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const packageRoute = require('./package.route');
-const videoRoute = require('./video.route');
 const categoryRoute = require('./category.route');
 const languageRoute = require('./language.route');
+const videoUploadRoute = require('./videoupload.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -24,16 +24,16 @@ const defaultRoutes = [
     path: '/packages',
     route: packageRoute,
   },
-  {
-    path: '/video',
-    route: videoRoute,
-  },
 
   {
     path: '/category',
     route: categoryRoute,
   },
 
+  {
+    path: '/video-upload',
+    route: videoUploadRoute,
+  },
   {
     path: '/language',
     route: languageRoute,

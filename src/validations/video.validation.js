@@ -5,21 +5,21 @@ const createVideo = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     language: Joi.string().required(),
-    categories: Joi.string().required(),
-    upload: Joi.string().required(),
-    description: Joi.string().required(),
+    category: Joi.string().required(),
+    videoUpload: Joi.array().required(),
+    Description: Joi.string(),
   }),
 };
 
-// const getUsers = {
-//   query: Joi.object().keys({
-//     name: Joi.string(),
-//     role: Joi.string(),
-//     sortBy: Joi.string(),
-//     limit: Joi.number().integer(),
-//     page: Joi.number().integer(),
-//   }),
-// };
+const getVideo = {
+  query: Joi.object().keys({
+    // name: Joi.string(),
+    // role: Joi.string(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
 
 // const getUser = {
 //   params: Joi.object().keys({
@@ -27,18 +27,19 @@ const createVideo = {
 //   }),
 // };
 
-// const updateUser = {
-//   params: Joi.object().keys({
-//     userId: Joi.required().custom(objectId),
-//   }),
-//   body: Joi.object()
-//     .keys({
-//       email: Joi.string().email(),
-//       password: Joi.string().custom(password),
-//       name: Joi.string(),
-//     })
-//     .min(1),
-// };
+const updateVideos = {
+  params: Joi.object().keys({
+    videoId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object()
+    .keys({
+      name: Joi.string(),
+      language: Joi.string(),
+      category: Joi.string(),
+      videoUpload: Joi.array(),
+    })
+    .min(1),
+};
 
 // const deleteUser = {
 //   params: Joi.object().keys({
@@ -48,4 +49,6 @@ const createVideo = {
 
 module.exports = {
   createVideo,
+  getVideo,
+  updateVideos,
 };

@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Video } = require('../models');
+const { Video, UploadVideo } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -9,21 +9,30 @@ const ApiError = require('../utils/ApiError');
  */
 const createVideo = async (userBody) => {
   try {
-    const contact = await Video.create(userBody);
+    const contact = await UploadVideo.create(userBody);
     return contact;
   } catch (err) {
     throw new ApiError(httpStatus.BAD_REQUEST, err);
   }
 };
 
-const queryVideos = async () => {
+const getAllVideos = async () => {
   try {
-    const videos = await Video.find()
-    .sort({ createdAt: -1 });
-    return videos;
+    return await UploadVideo.find();
   } catch (err) {
-    throw new ApiError(httpStatus.BAD_REQUEST, err);
+    console.error('Error fetching Video:', err);
+    throw err;
   }
+};
+
+const updateVideos = async (id, updateBody) => {
+  const updateOneVideo = await UploadVideo.findById(id);
+  if (!updateOneVideo) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'language not found');
+  }
+  Object.assign(updateOneVideo, updateBody);
+  await updateOneVideo.save();
+  return updateOneVideo;
 };
 
 /**
@@ -63,5 +72,6 @@ const queryVideos = async () => {
 
 module.exports = {
   createVideo,
-  queryVideos,
+  getAllVideos,
+  updateVideos,
 };

@@ -16,9 +16,9 @@ const createCategory = async (userBody) => {
   }
 };
 
-const getAllCategory = async () => {
+const getAllCategory = async (filter, options) => {
   try {
-    return await Category.find();
+    return await Category.paginate(filter, options);
   } catch (err) {
     console.error('Error fetching packages:', err);
     throw err;

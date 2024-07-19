@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 const { tokenTypes } = require('../config/tokens');
 
 const categorySchema = mongoose.Schema(
@@ -11,7 +11,6 @@ const categorySchema = mongoose.Schema(
 
     softDelete: {
       type: Boolean,
-      required: true,
     },
   },
   {
@@ -21,6 +20,7 @@ const categorySchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 categorySchema.plugin(toJSON);
+categorySchema.plugin(paginate);
 
 /**
  * @typedef Token

@@ -10,7 +10,9 @@ const createCategory = catchAsync(async (req, res) => {
 });
 
 const getAllCategories = catchAsync(async (req, res) => {
-  const user = await categoryService.getAllCategory();
+  const filter = pick(req.query, []);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const user = await categoryService.getAllCategory(filter, options);
   console.log(user);
   res.status(httpStatus.CREATED).send(user);
 });

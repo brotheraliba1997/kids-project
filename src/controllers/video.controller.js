@@ -2,19 +2,28 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { videoService } = require('../services');
+const { packageService, videoService } = require('../services');
 
 const createVideo = catchAsync(async (req, res) => {
   const user = await videoService.createVideo(req.body);
   res.status(httpStatus.CREATED).send(user);
 });
 
-const getVideos = catchAsync(async (req, res) => {
-  const user = await videoService.queryVideos(req.body);
+const getAllVideos = catchAsync(async (req, res) => {
+  const user = await videoService.getAllVideos();
+  console.log(user);
+  res.status(httpStatus.CREATED).send(user);
+});
+
+const updateVideo = catchAsync(async (req, res) => {
+  const { videoId } = req.params;
+  const user = await videoService.updateVideos(videoId, req.body);
+  console.log(user);
   res.status(httpStatus.CREATED).send(user);
 });
 
 module.exports = {
   createVideo,
-  getVideos
+  getAllVideos,
+  updateVideo,
 };
