@@ -9,11 +9,14 @@ const router = express.Router();
 router
   .route('/')
   .get(auth('getCategories'), validate(categoryValidation.getCategory), categoryController.getAllCategories)
+  // .get(auth('getCategories'), validate(categoryValidation.getCategory), categoryController.getCategory)
   .post(auth('manageCategories'), validate(categoryValidation.createCategory), categoryController.createCategory);
 
 router
   .route('/:categoryId')
+  .get(auth('manageCategories'),  categoryController.getCategory)
   .patch(auth('manageCategories'), validate(categoryValidation.updateCategory), categoryController.updateCategory);
+
 
 module.exports = router;
 

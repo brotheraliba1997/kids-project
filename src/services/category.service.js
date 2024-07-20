@@ -25,6 +25,14 @@ const getAllCategory = async (filter, options) => {
   }
 };
 
+const getCategory = async (id) => {
+    const categoryFound = await getUserById(id);
+    if (!categoryFound) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'category not found');
+    }
+    return categoryFound
+};
+
 const updateCategory = async (id, updateBody) => {
   const updateOneCategory = await Category.findById(id);
   if (!updateOneCategory) {
@@ -55,7 +63,7 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return User.findById(id);
+  return Category.findById(id);
 };
 
 /**
@@ -109,4 +117,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getCategory
 };

@@ -9,6 +9,12 @@ const createCategory = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(user);
 });
 
+const getCategory = catchAsync(async (req, res) => {
+  const { categoryId } = req.params;
+  const user = await categoryService.getCategory(categoryId);
+  res.status(httpStatus.CREATED).send(user);
+});
+
 const getAllCategories = catchAsync(async (req, res) => {
   const filter = pick(req.query, []);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
@@ -28,4 +34,5 @@ module.exports = {
   createCategory,
   getAllCategories,
   updateCategory,
+  getCategory
 };
