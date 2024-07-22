@@ -76,7 +76,15 @@ const userSchema = mongoose.Schema(
     //   type: Boolean,
     //   default: false,
     // },
+
+    softDelete: {
+      type: Boolean,
+      default: false,
+      private:true
+    }
   },
+
+  
   {
     timestamps: true,
   }

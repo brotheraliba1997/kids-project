@@ -17,6 +17,7 @@ const createCategory = async (userBody) => {
 };
 
 const getAllCategory = async (filter, options) => {
+  filter.softDelete = false
   try {
     return await Category.paginate(filter, options);
   } catch (err) {
@@ -26,21 +27,28 @@ const getAllCategory = async (filter, options) => {
 };
 
 const getCategory = async (id) => {
-    const categoryFound = await getUserById(id);
-    if (!categoryFound) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'category not found');
-    }
-    return categoryFound
+  const categoryFound = await getUserById(id);
+  if (!categoryFound) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'category not found');
+  }
+  return categoryFound;
 };
 
 const updateCategory = async (id, updateBody) => {
   const updateOneCategory = await Category.findById(id);
+
   if (!updateOneCategory) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
   }
+
   Object.assign(updateOneCategory, updateBody);
+
+  // Save the updated category
   await updateOneCategory.save();
-  return updateOneCategory;
+
+  return {
+    updateOneCategory,
+  };
 };
 
 /**
@@ -117,5 +125,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
-  getCategory
+  getCategory,
 };

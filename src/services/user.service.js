@@ -24,6 +24,7 @@ const createUser = async (userBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryUsers = async (filter, options) => {
+  filter.softDelete = false
   const users = await User.paginate(filter, options);
   return users;
 };

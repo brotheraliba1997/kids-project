@@ -5,8 +5,14 @@ const createUser = {
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
-    name: Joi.string().required(),
-    role: Joi.string().required().valid('user', 'admin'),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    email: Joi.string().required(),
+    phone: Joi.string().required(),
+    address: Joi.string().required(),
+    city: Joi.string().required(),
+    state: Joi.string().required(),
+    role: Joi.string().required().valid('admin' , "parent" , "teacher"),
   }),
 };
 
@@ -32,9 +38,17 @@ const updateUser = {
   }),
   body: Joi.object()
     .keys({
-      email: Joi.string().email(),
-      password: Joi.string().custom(password),
-      name: Joi.string(),
+      email: Joi.string().required().email(),
+      password: Joi.string().required().custom(password),
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
+      email: Joi.string().required(),
+      phone: Joi.string().required(),
+      address: Joi.string().required(),
+      city: Joi.string().required(),
+      state: Joi.string().required(),
+      zipCode: Joi.string().required(),
+      role: Joi.string().required().valid('admin' , "parent" , "teacher"),
     })
     .min(1),
 };
