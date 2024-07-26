@@ -4,7 +4,9 @@ const userRoute = require('./user.route');
 const packageRoute = require('./package.route');
 const categoryRoute = require('./category.route');
 const languageRoute = require('./language.route');
-const videoUploadRoute = require('./videoupload.route');
+
+const videoRoute = require('./video.route');
+const videoUploadRoute = require('./videoUpload.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -31,12 +33,17 @@ const defaultRoutes = [
   },
 
   {
-    path: '/video-upload',
-    route: videoUploadRoute,
+    path: '/video',
+    route: videoRoute,
   },
   {
     path: '/language',
     route: languageRoute,
+  },
+
+  {
+    path: '/video-upload',
+    route: videoUploadRoute,
   },
 ];
 

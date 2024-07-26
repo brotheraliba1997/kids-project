@@ -6,3 +6,4 @@ module.exports.packageService = require('./package.service');
 module.exports.videoService = require('./video.service');
 module.exports.categoryService = require('./category.service');
 module.exports.languageService = require('./language.service');
+module.exports.VideoUploadService = require('./videoUpload.service');

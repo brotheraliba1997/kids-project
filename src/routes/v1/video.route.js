@@ -2,25 +2,18 @@ const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const videoValidation = require('../../validations/video.validation');
-const videoUploadController = require('../../controllers/videoUpload.controller');
+const videoController = require('../../controllers/video.controller');
 
 const router = express.Router();
 
 router
-  .route('/generate-presigned-url')
-  .post(  videoUploadController.GenerateSinglePresigned)
-
-  router
-  .route('/start-multipart-upload')
-  .post(  videoUploadController.StartMultipartUpload)
-
-  router
-  .route('/complete-multipart-upload')
-  .post( videoUploadController.CompleteMultipartUpload);
+  .route('/')
+  .get(auth('getCategories'), validate(videoValidation.getVideo), videoController.getAllVideos)
+  .post(auth('manageCategories'), validate(videoValidation.createVideo), videoController.createVideo);
 
 router
   .route('/:videoId')
-  .patch(auth('manageCategories'), validate(videoValidation.updateVideos), videoUploadController.updateVideo);
+  .patch(auth('manageCategories'), validate(videoValidation.updateVideos), videoController.updateVideo);
 
 module.exports = router;
 
