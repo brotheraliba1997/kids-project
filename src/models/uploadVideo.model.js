@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 const { tokenTypes } = require('../config/tokens');
 
 const videoUploadSchema = mongoose.Schema(
@@ -21,7 +21,7 @@ const videoUploadSchema = mongoose.Schema(
       required: true,
     },
 
-    source: {
+    videoUpload: {
       type: String,
       required: true,
     },
@@ -34,6 +34,13 @@ const videoUploadSchema = mongoose.Schema(
     Description: {
       type: String,
     },
+
+    
+    softDelete: {
+      type: Boolean,
+      default: false,
+      private:true
+    },
   },
   {
     timestamps: true,
@@ -42,6 +49,7 @@ const videoUploadSchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 videoUploadSchema.plugin(toJSON);
+videoUploadSchema.plugin(paginate);
 
 /**
  * @typedef Token

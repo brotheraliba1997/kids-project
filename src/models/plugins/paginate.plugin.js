@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 const paginate = (schema) => {
   /**
    * @typedef {Object} QueryResult
@@ -9,18 +7,20 @@ const paginate = (schema) => {
    * @property {number} totalPages - Total number of pages
    * @property {number} totalResults - Total number of documents
    */
+
   /**
    * Query for documents with pagination
    * @param {Object} [filter] - Mongo filter
    * @param {Object} [options] - Query options
    * @param {string} [options.sortBy] - Sorting criteria using the format: sortField:(desc|asc). Multiple sorting criteria should be separated by commas (,)
-   * @param {string} [options.populate] - Populate data fields. Hierarchy of fields should be separated by (.). Multiple populating criteria should be separated by commas (,)
+   * @param {Array|String} [options.populate] - Populate data fields. If array, each item must be an object with 'path' and optionally 'select'.
    * @param {number} [options.limit] - Maximum number of results per page (default = 10)
    * @param {number} [options.page] - Current page (default = 1)
    * @returns {Promise<QueryResult>}
    */
   schema.statics.paginate = async function (filter, options) {
     let sort = '';
+    console.log('sort==>', options);
     if (options.sortBy) {
       const sortingCriteria = [];
       options.sortBy.split(',').forEach((sortOption) => {
@@ -32,6 +32,8 @@ const paginate = (schema) => {
       sort = 'createdAt';
     }
 
+    console.log('sort=>', sort, options.sortBy);
+
     const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
     const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
     const skip = (page - 1) * limit;
@@ -40,14 +42,24 @@ const paginate = (schema) => {
     let docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit);
 
     if (options.populate) {
-      options.populate.split(',').forEach((populateOption) => {
-        docsPromise = docsPromise.populate(
-          populateOption
-            .split('.')
-            .reverse()
-            .reduce((a, b) => ({ path: b, populate: a }))
-        );
-      });
+      if (Array.isArray(options.populate)) {
+        options.populate.forEach((pop) => {
+          const populateObject = {
+            path: pop.path,
+            select: pop.select || '',
+          };
+          docsPromise = docsPromise.populate(populateObject).lean();
+        });
+      } else if (typeof options.populate === 'string') {
+        options.populate.split(',').forEach((populateOption) => {
+          const [path, select] = populateOption.split(':');
+          const populateObject = { path };
+          if (select) {
+            populateObject.select = select;
+          }
+          docsPromise = docsPromise.populate(populateObject).lean();
+        });
+      }
     }
 
     docsPromise = docsPromise.exec();

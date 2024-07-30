@@ -16,13 +16,23 @@ const createLanguage = async (userBody) => {
   }
 };
 
-const getAllLanguages = async () => {
+const getAllLanguages = async (filter, options) => {
+  filter.softDelete = false
   try {
-    return await Language.find();
+    return await Language.paginate(filter, options);
   } catch (err) {
-    console.error('Error fetching Language:', err);
+    console.error('Error fetching packages:', err);
     throw err;
   }
+};
+
+
+const getLanguage = async (id) => {
+  const categoryFound = await getUserById(id);
+  if (!categoryFound) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'category not found');
+  }
+  return categoryFound;
 };
 
 const updateLanguage = async (id, updateBody) => {
@@ -55,7 +65,7 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return User.findById(id);
+  return Language.findById(id);
 };
 
 /**
@@ -109,4 +119,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getLanguage,
 };

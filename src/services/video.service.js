@@ -16,14 +16,23 @@ const createVideo = async (userBody) => {
   }
 };
 
-const getAllVideos = async () => {
+const getAllVideos = async (filter, options) => {
   try {
-    return await UploadVideo.find();
+    options.populate = [
+      { path: 'language', select: 'name' },
+      { path: 'category', select: 'name' },
+    ]
+    const result = await UploadVideo.paginate(filter, {
+      ...options,
+      
+    });
+    return result;
   } catch (err) {
     console.error('Error fetching Video:', err);
     throw err;
   }
 };
+
 
 const updateVideos = async (id, updateBody) => {
   const updateOneVideo = await UploadVideo.findById(id);

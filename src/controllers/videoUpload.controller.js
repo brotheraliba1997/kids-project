@@ -4,8 +4,8 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { packageService, VideoUploadService } = require('../services');
 
-const GenerateSinglePresigned = catchAsync(async (req, res) => {
-  const user = await VideoUploadService.GenerateSinglePresigned(req.body);
+const GeneratePresigned = catchAsync(async (req, res) => {
+  const user = await VideoUploadService.GeneratePresigned(req.body);
   res.status(httpStatus.CREATED).send(user);
 });
 
@@ -29,9 +29,16 @@ const CompleteMultipartUpload = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(user);
 })
 
+const GenerateSinglePresigned = catchAsync(async (req, res) => {
+  const user = await VideoUploadService.GenerateSinglePresigned(req.body);
+  console.log(user, "userChal");
+  res.status(httpStatus.CREATED).send(user);
+})
+
 module.exports = {
   GenerateSinglePresigned,
   StartMultipartUpload,
   updateVideo,
-  CompleteMultipartUpload
+  CompleteMultipartUpload,
+  GeneratePresigned
 };

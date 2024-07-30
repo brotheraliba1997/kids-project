@@ -8,9 +8,9 @@ const s3 = require('../config/s3');
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const GenerateSinglePresigned = async (userBody) => {
+const GeneratePresigned = async (userBody) => {
   const { fileName, uploadId, partNumbers } = userBody;
-  const key = `video-upload/${fileName}`;
+  const key = fileName;
   const totalParts = Array.from({ length: partNumbers }, (_, i) => i + 1);
   try {
     const presignedUrls = await Promise.all(
@@ -23,23 +23,23 @@ const GenerateSinglePresigned = async (userBody) => {
           Expires: 3600 * 3,
         };
 
-        return s3.getSignedUrl("uploadPart", {
+        return s3.getSignedUrl('uploadPart', {
           ...params,
         });
       })
     );
-    return{ presignedUrls };
+    return { presignedUrls };
   } catch (error) {
-    console.error("Error generating pre-signed URLs:", error);
+    console.error('Error generating pre-signed URLs:', error);
     // return res.status(500).json({ error: "Error generating pre-signed URLs" });
-    return null
+    return null;
   }
 };
 
 const StartMultipartUpload = async (userBody) => {
   let fileName = userBody.fileName;
   let contentType = userBody.contentType;
-  const key = `video-upload/${fileName}`;
+  const key = fileName;
 
   const params = {
     Bucket: process.env.BUCKET_NAME,
@@ -47,23 +47,21 @@ const StartMultipartUpload = async (userBody) => {
   };
 
   // add extra params if content type is video
-  if (contentType == "VIDEO") {
-    params.ContentDisposition = "inline";
-    params.ContentType = "video/mp4";
+  if (contentType == 'VIDEO') {
+    params.ContentDisposition = 'inline';
+    params.ContentType = 'video/mp4';
   }
 
   try {
     const multipart = await s3.createMultipartUpload(params).promise();
 
-
-    console.log(multipart, "UploadId-")
-     return { uploadId: multipart.UploadId };
+    console.log(multipart, 'UploadId-');
+    return { uploadId: multipart.UploadId };
   } catch (error) {
-    console.error("Error starting multipart upload:", error);
+    console.error('Error starting multipart upload:', error);
     // return res.status(500).json({ error: "Error starting multipart upload" });
-    return null
+    return null;
   }
-
 };
 const updateVideos = async (id, updateBody) => {
   const updateOneVideo = await UploadVideo.findById(id);
@@ -75,13 +73,11 @@ const updateVideos = async (id, updateBody) => {
   return updateOneVideo;
 };
 
-
 const CompleteMultipartUpload = async (updateBody) => {
-
   let fileName = updateBody.fileName;
   let uploadId = updateBody.uploadId;
   let parts = updateBody.parts;
-  const key = `video-upload/${fileName}`;
+  const key = fileName;
 
   const params = {
     Bucket: process.env.BUCKET_NAME,
@@ -97,12 +93,33 @@ const CompleteMultipartUpload = async (updateBody) => {
   };
   try {
     const data = await s3.completeMultipartUpload(params).promise();
-    console.log(data, "link")
+    console.log(data, 'link');
     return { fileData: data };
   } catch (error) {
-    console.error("Error completing multipart upload:", error);
+    console.error('Error completing multipart upload:', error);
     // return res.status(500).json({ error: "Error completing multipart upload" });
-    return null
+    return null;
+  }
+};
+
+const GenerateSinglePresigned = async (updateBody) => {
+  const fileName = updateBody.fileName;
+  const key = fileName;
+  console.log(fileName, "fileName")
+
+  const params = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: key,
+    Expires: 60, // Expires in 60 seconds
+    // ACL: 'bucket-owner-full-control',
+  };
+  try {
+    let url = await s3.getSignedUrlPromise('putObject', params);
+    console.log(url, 'url asok');
+    return { url };
+  } catch (err) {
+    console.log(err, "errorajate");
+    return null;
   }
 };
 
@@ -143,7 +160,8 @@ const CompleteMultipartUpload = async (updateBody) => {
 
 module.exports = {
   GenerateSinglePresigned,
+  GeneratePresigned,
   StartMultipartUpload,
   updateVideos,
-  CompleteMultipartUpload
+  CompleteMultipartUpload,
 };

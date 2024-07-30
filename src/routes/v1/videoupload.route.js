@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   .route('/generate-presigned-url')
-  .post(  videoUploadController.GenerateSinglePresigned)
+  .post(  videoUploadController.GeneratePresigned)
 
   router
   .route('/start-multipart-upload')
@@ -17,6 +17,10 @@ router
   router
   .route('/complete-multipart-upload')
   .post( videoUploadController.CompleteMultipartUpload);
+
+  router
+  .route('/generate-single-presigned')
+  .post( videoUploadController.GenerateSinglePresigned);
 
 router
   .route('/:videoId')

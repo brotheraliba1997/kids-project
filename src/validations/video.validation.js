@@ -6,8 +6,9 @@ const createVideo = {
     name: Joi.string().required(),
     language: Joi.string().required(),
     category: Joi.string().required(),
-    videoUpload: Joi.array().required(),
+    videoUpload: Joi.string().required(),
     Description: Joi.string(),
+    thumbnail: Joi.string(),
   }),
 };
 
@@ -36,7 +37,8 @@ const updateVideos = {
       name: Joi.string(),
       language: Joi.string(),
       category: Joi.string(),
-      videoUpload: Joi.array(),
+      videoUpload: Joi.string(),
+      thumbnail: Joi.string(),
     })
     .min(1),
 };

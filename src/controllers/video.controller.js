@@ -10,7 +10,9 @@ const createVideo = catchAsync(async (req, res) => {
 });
 
 const getAllVideos = catchAsync(async (req, res) => {
-  const user = await videoService.getAllVideos();
+  const filter = pick(req.query, []);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const user = await videoService.getAllVideos(filter, options);
   console.log(user);
   res.status(httpStatus.CREATED).send(user);
 });

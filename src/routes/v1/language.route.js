@@ -13,6 +13,7 @@ router
 
 router
   .route('/:languageId')
+  .get(auth('manageCategories'),  languageController.getLanguage)
   .patch(auth('manageCategories'), validate(languageValidation.updateLanguage), languageController.updateLanguage);
 
 module.exports = router;
