@@ -9,6 +9,14 @@ const createVideo = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(user);
 });
 
+const getVideo = catchAsync(async (req, res) => {
+  const user = await videoService.getUserById(req.params.videoId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  res.send(user);
+});
+
 const getAllVideos = catchAsync(async (req, res) => {
   const filter = pick(req.query, []);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
@@ -28,4 +36,5 @@ module.exports = {
   createVideo,
   getAllVideos,
   updateVideo,
+  getVideo
 };

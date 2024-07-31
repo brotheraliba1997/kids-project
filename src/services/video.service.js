@@ -16,6 +16,11 @@ const createVideo = async (userBody) => {
   }
 };
 
+
+const getUserById = async (id) => {
+  return UploadVideo.findById(id).populate('language').populate('category');
+};
+
 const getAllVideos = async (filter, options) => {
   try {
     options.populate = [
@@ -83,4 +88,5 @@ module.exports = {
   createVideo,
   getAllVideos,
   updateVideos,
+  getUserById
 };

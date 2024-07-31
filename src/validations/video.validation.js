@@ -39,6 +39,7 @@ const updateVideos = {
       category: Joi.string(),
       videoUpload: Joi.string(),
       thumbnail: Joi.string(),
+      Description: Joi.string(),
     })
     .min(1),
 };
