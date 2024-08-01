@@ -6,8 +6,8 @@ const logger = require('./config/logger');
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   logger.info('Connected to MongoDB');
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port || 3000} `);
+  server = app.listen(process.env.PORT || config.port || 3000, () => {
+    logger.info(`Listening on port ${process.env.PORT || config.port || 3000}`);
   });
 });
 
