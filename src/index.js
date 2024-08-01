@@ -4,7 +4,7 @@ const http = require('http');
 const config = require('./config/config');
 const logger = require('./config/logger');
 
-const port = process.env.PORT || config.port || 5000;
+const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
