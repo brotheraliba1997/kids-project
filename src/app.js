@@ -26,6 +26,9 @@ app.get("/", (req, res) => {
   res.send("Welcome to my website!");
 });
 
+app.get('/favico.ico', (req, res) => {
+  res.send("myfavico.ico");
+});
 // set security HTTP headers
 app.use(helmet());
 
