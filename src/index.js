@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
 const app = require('./app');
+const http = require('http');
 const config = require('./config/config');
 const logger = require('./config/logger');
 
-let server;
+const server = http.createServer(app);
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   logger.info('Connected to MongoDB');
-  server = app.listen(process.env.PORT || config.port || 3000, () => {
-    logger.info(`Listening on port ${process.env.PORT || config.port || 3000}`);
+  server = app.listen(config.port, () => {
+    logger.info(`Listening to port ${config.port} `);
   });
 });
+
 
 const exitHandler = () => {
   if (server) {
