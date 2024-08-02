@@ -6,7 +6,7 @@ const categoryRoute = require('./category.route');
 const languageRoute = require('./language.route');
 
 const videoRoute = require('./video.route');
-const videoUploadRoute = require('./videoUpload.route');
+const videoUploadRoute = require('./uploadVideo.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
