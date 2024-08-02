@@ -24,7 +24,7 @@ router
 
 router
   .route('/:videoId')
-  .patch(auth('manageCategories'), validate(videoValidation.updateVideos), videoUploadController.updateVideo);
+  .patch(auth('manageCategories'), videoUploadController.updateVideo);
 
 module.exports = router;
 
