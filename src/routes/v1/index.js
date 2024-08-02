@@ -5,8 +5,8 @@ const packageRoute = require('./package.route');
 const categoryRoute = require('./category.route');
 const languageRoute = require('./language.route');
 
-// const videoRoute = require('./video.route');
-// const videoUploadRoute = require('./videoUpload.route');
+const videoRoute = require('./video.route');
+const videoUploadRoute = require('./videoUpload.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -32,19 +32,19 @@ const defaultRoutes = [
     route: categoryRoute,
   },
 
-  // {
-  //   path: '/video',
-  //   route: videoRoute,
-  // },
+  {
+    path: '/video',
+    route: videoRoute,
+  },
   {
     path: '/language',
     route: languageRoute,
   },
 
-  // {
-  //   path: '/video-upload',
-  //   route: videoUploadRoute,
-  // },
+  {
+    path: '/video-upload',
+    route: videoUploadRoute,
+  },
 ];
 
 const devRoutes = [
