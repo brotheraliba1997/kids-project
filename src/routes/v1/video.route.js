@@ -14,7 +14,7 @@ router
 router
   .route('/:videoId')
   .patch(auth('manageCategories'), validate(videoValidation.updateVideos), videoController.updateVideo)
-  .get(auth('manageCategories'),  videoController.getVideo);
+  .get(auth('manageCategories'),  videoController.getSingleVideo);
 
 module.exports = router;
 

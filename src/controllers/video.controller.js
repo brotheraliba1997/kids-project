@@ -9,7 +9,7 @@ const createVideo = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(user);
 });
 
-const getVideo = catchAsync(async (req, res) => {
+const getSingleVideo = catchAsync(async (req, res) => {
   const user = await videoService.getUserById(req.params.videoId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
@@ -36,5 +36,5 @@ module.exports = {
   createVideo,
   getAllVideos,
   updateVideo,
-  getVideo
+  getSingleVideo
 };
