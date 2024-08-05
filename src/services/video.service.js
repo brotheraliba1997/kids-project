@@ -16,20 +16,19 @@ const createVideo = async (userBody) => {
   }
 };
 
-
 const getUserById = async (id) => {
   return UploadVideo.findById(id).populate('language').populate('category');
 };
 
 const getAllVideos = async (filter, options) => {
+  filter.softDelete = false;
   try {
     options.populate = [
       { path: 'language', select: 'name' },
       { path: 'category', select: 'name' },
-    ]
+    ];
     const result = await UploadVideo.paginate(filter, {
       ...options,
-      
     });
     return result;
   } catch (err) {
@@ -38,14 +37,19 @@ const getAllVideos = async (filter, options) => {
   }
 };
 
-
 const updateVideos = async (id, updateBody) => {
   const updateOneVideo = await UploadVideo.findById(id);
+
   if (!updateOneVideo) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'language not found');
+    throw new ApiError(httpStatus.NOT_FOUND, 'Video not found');
   }
+ 
+
+
   Object.assign(updateOneVideo, updateBody);
+
   await updateOneVideo.save();
+
   return updateOneVideo;
 };
 
@@ -88,5 +92,5 @@ module.exports = {
   createVideo,
   getAllVideos,
   updateVideos,
-  getUserById
+  getUserById,
 };

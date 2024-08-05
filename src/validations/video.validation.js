@@ -9,6 +9,7 @@ const createVideo = {
     videoUpload: Joi.string().required(),
     Description: Joi.string(),
     thumbnail: Joi.string(),
+    program: Joi.string(),
   }),
 };
 
@@ -19,6 +20,7 @@ const getVideo = {
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
+    program: Joi.string(),
   }),
 };
 
@@ -40,6 +42,8 @@ const updateVideos = {
       videoUpload: Joi.string(),
       thumbnail: Joi.string(),
       Description: Joi.string(),
+      program: Joi.string(),
+      softDelete: Joi.boolean(),
     })
     .min(1),
 };

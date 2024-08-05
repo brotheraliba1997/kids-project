@@ -7,3 +7,5 @@ module.exports.videoService = require('./video.service');
 module.exports.categoryService = require('./category.service');
 module.exports.languageService = require('./language.service');
 module.exports.VideoUploadService = require('./videoUpload.service');
+module.exports.ProgramService = require('./program.service');
+module.exports.visitService = require('./visit.service');
