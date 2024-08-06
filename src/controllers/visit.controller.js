@@ -11,11 +11,11 @@ const createVisit = catchAsync(async (req, res) => {
 });
 
 const getAllVisit = catchAsync(async (req, res) => {
-  const user = await visitService.getAllVisit(req);
-  if (!user) {
+  const visit = await visitService.getAllVisit();
+  if (!visit) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  res.send(user);
+  res.status(httpStatus.CREATED).send({visit});
 });
 
 

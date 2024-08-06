@@ -82,6 +82,8 @@ const userSchema = mongoose.Schema(
       default: false,
       private:true
     }
+
+    
   },
 
   

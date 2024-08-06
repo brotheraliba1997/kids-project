@@ -8,6 +8,26 @@ const packageSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    amount: {
+      type: String,
+      required: true,
+    },
+
+    type: {
+      type: String,
+      required: true,
+      enum: ['Individual', 'Business'],
+    },
+
+    validity: {
+      type: Date,
+      required: true,
+    },
+
+    content: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

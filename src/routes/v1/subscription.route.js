@@ -3,22 +3,15 @@ const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const languageValidation = require('../../validations/language.validation');
 const languageController = require('../../controllers/language.controller');
-const { ProgramController, visitController } = require('../../controllers');
-const { ProgramValidation } = require('../../validations');
+const { subscriptionController } = require('../../controllers');
 
 const router = express.Router();
 
 router
   .route('/')
-  .get( visitController.getAllVisit);
-  router
-  .route('/create')
-  .get( visitController.createVisit);
+  .get(auth('getCategories'),  subscriptionController.getAllSubcription)
+  .post(auth('manageCategories'),  subscriptionController.createSubcription);
 
-// router
-//   .route('/:programId')
-//   .get(auth('manageProgram'), validate(ProgramValidation.getProgram) ,ProgramController.getProgram)
-//   .patch(auth('manageProgram'),  validate(ProgramValidation.updateProgram), ProgramController.updateProgram);
 
 module.exports = router;
 

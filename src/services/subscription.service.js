@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Language, Program, Visit } = require('../models');
+const { Package, Subscription, User } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -8,59 +8,36 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 
-const getIp = (req) => {
-  return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-};
-const createVisit = async (req) => {
+
+const getAllSubscription = async () => {
   try {
-    const Ip = getIp(req);
-    console.log(Ip, 'Ip');
-
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
-
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999);
-    let visit = await Visit.findOne({
-      createdAt: {
-        $gte: startOfDay,
-        $lt: endOfDay,
-      },
-    });
-    if (!visit) {
-      visit = new Visit();
-    }
-
-    if (!visit.ips.includes(Ip)) {
-      visit.count += 1;
-      visit.ips.push(Ip);
-    }
-    await visit.save();
-    return { message: 'Visit counted', totalVisits: visit.count };
+    return await Subscription.find();
   } catch (err) {
-    console.error('Error fetching visit:', err);
-    throw new ApiError(httpStatus.BAD_REQUEST, err);
+    console.error('Error fetching Subscription:', err);
+    throw err;
   }
 };
 
-const getAllVisit = async (filter, options) => {
+const createSubscription = async (userBody, userId) => {
+  const { packageId } = userBody;
   try {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
+    let packageFind = await Package.findById(packageId);
+    if (!packageFind) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'This package is not available');
+    }
 
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999);
-    let visit = await Visit.findOne({
-      createdAt: {
-        $gte: startOfDay,
-        $lt: endOfDay,
-      },
+    const subscription = new Subscription({
+      user: userId,
+      type: packageFind.type,
+      amount: packageFind.amount,
+      validity: new Date(packageFind.validity).toISOString(),
+      package: packageId,
     });
-   
-    const todayVisit = visit ? visit.count : 0;
-    return todayVisit;
+
+    await subscription.save();
+    return subscription;
   } catch (err) {
-    console.error('Error fetching visit:', err);
+    console.error('Error fetching Subscription:', err);
     throw err;
   }
 };
@@ -75,7 +52,7 @@ const getAllVisit = async (filter, options) => {
  * @returns {Promise<QueryResult>}
  */
 const queryUsers = async (filter, options) => {
-  const users = await Program.paginate(filter, options);
+  const users = await User.paginate(filter, options);
   return users;
 };
 
@@ -85,7 +62,7 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return Program.findById(id);
+  return User.findById(id);
 };
 
 /**
@@ -131,8 +108,8 @@ const deleteUserById = async (userId) => {
 };
 
 module.exports = {
-  createVisit,
-  getAllVisit,
+  createSubscription,
+  getAllSubscription,
   queryUsers,
   getUserById,
   getUserByEmail,

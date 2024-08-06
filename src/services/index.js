@@ -9,3 +9,4 @@ module.exports.languageService = require('./language.service');
 module.exports.VideoUploadService = require('./videoUpload.service');
 module.exports.ProgramService = require('./program.service');
 module.exports.visitService = require('./visit.service');
+module.exports.subscriptionService = require('./subscription.service');

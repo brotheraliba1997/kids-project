@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { password, objectId } = require('./custom.validation');
 
-const createPackage = {
+const createSubscription = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     amount: Joi.string().required(),
@@ -47,7 +47,7 @@ const createPackage = {
 // };
 
 module.exports = {
-  createPackage,
+  createSubscription,
   // getUsers,
   // getUser,
   // updateUser,

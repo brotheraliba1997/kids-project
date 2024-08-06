@@ -6,6 +6,7 @@ const categoryRoute = require('./category.route');
 const languageRoute = require('./language.route');
 const programRoute = require('./program.route');
 const visitRoute = require('./visit.route');
+const subscriptionRoute = require('./subscription.route');
 
 const videoRoute = require('./video.route');
 const videoUploadRoute = require('./uploadVideo.route');
@@ -50,6 +51,11 @@ const defaultRoutes = [
   {
     path: '/program',
     route: programRoute,
+  },
+
+  {
+    path: '/subscription',
+    route: subscriptionRoute,
   },
 
   {

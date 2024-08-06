@@ -7,3 +7,4 @@ module.exports.languageController = require('./language.controller');
 module.exports.VideoUploadController = require('./videoUpload.controller');
 module.exports.ProgramController = require('./program.controller');
 module.exports.visitController = require('./visit.controller');
+module.exports.subscriptionController = require('./subscription.controller');
