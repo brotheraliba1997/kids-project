@@ -9,8 +9,13 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(packageController.getAllPackages)
+  .get(auth('manageProgram'), validate(packageValidation.getPackages),packageController.getAllPackages)
   .post(validate(packageValidation.createPackage), packageController.createPackage);
+
+  router
+  .route('/:packageId')
+  .get(auth('manageProgram'), validate(packageValidation.getPackage) ,packageController.getPackage)
+  .patch(auth('manageProgram'),  validate(packageValidation.updatePackage), packageController.updatePackage);
 
 module.exports = router;
 

@@ -6,50 +6,46 @@ const createPackage = {
     name: Joi.string().required(),
     amount: Joi.string().required(),
     type: Joi.string().required(),
-    validity: Joi.date().required(),
+    validity: Joi.string().required(),
     content: Joi.string().required(),
   }),
 };
 
-// const getUsers = {
-//   query: Joi.object().keys({
-//     name: Joi.string(),
-//     role: Joi.string(),
-//     sortBy: Joi.string(),
-//     limit: Joi.number().integer(),
-//     page: Joi.number().integer(),
-//   }),
-// };
+const getPackages = {
+  query: Joi.object().keys({
+    // name: Joi.string(),
+    // role: Joi.string(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
 
-// const getUser = {
-//   params: Joi.object().keys({
-//     userId: Joi.string().custom(objectId),
-//   }),
-// };
+const getPackage = {
+  params: Joi.object().keys({
+    packageId: Joi.string().custom(objectId),
+  }),
+};
 
-// const updateUser = {
-//   params: Joi.object().keys({
-//     userId: Joi.required().custom(objectId),
-//   }),
-//   body: Joi.object()
-//     .keys({
-//       email: Joi.string().email(),
-//       password: Joi.string().custom(password),
-//       name: Joi.string(),
-//     })
-//     .min(1),
-// };
-
-// const deleteUser = {
-//   params: Joi.object().keys({
-//     userId: Joi.string().custom(objectId),
-//   }),
-// };
+const updatePackage = {
+  params: Joi.object().keys({
+    packageId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object()
+    .keys({
+      softDelete: Joi.boolean(),
+      name: Joi.string(),
+      amount: Joi.string(),
+      type: Joi.string(),
+      validity: Joi.string(),
+      content: Joi.string(),
+    })
+    .min(1),
+};
 
 module.exports = {
   createPackage,
-  // getUsers,
-  // getUser,
-  // updateUser,
-  // deleteUser,
+  updatePackage,
+  getPackage,
+  getPackages,
 };

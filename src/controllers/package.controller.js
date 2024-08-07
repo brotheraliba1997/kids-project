@@ -10,7 +10,24 @@ const createPackage = catchAsync(async (req, res) => {
 });
 
 const getAllPackages = catchAsync(async (req, res) => {
-  const user = await packageService.getAllPackages();
+  const filter = pick(req.query, []);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const user = await packageService.getAllPackages(filter,options);
+  console.log(user);
+  res.status(httpStatus.CREATED).send(user);
+});
+
+
+const getPackage = catchAsync(async (req, res) => {
+  const { packageId } = req.params;
+  const user = await packageService.getPackage(packageId);
+  res.status(httpStatus.CREATED).send(user);
+});
+
+
+const updatePackage = catchAsync(async (req, res) => {
+  const { packageId } = req.params;
+  const user = await packageService.updatePackage(packageId, req.body);
   console.log(user);
   res.status(httpStatus.CREATED).send(user);
 });
@@ -18,4 +35,6 @@ const getAllPackages = catchAsync(async (req, res) => {
 module.exports = {
   createPackage,
   getAllPackages,
+  getPackage,
+  updatePackage
 };

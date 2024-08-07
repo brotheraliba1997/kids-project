@@ -3,15 +3,20 @@ const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const languageValidation = require('../../validations/language.validation');
 const languageController = require('../../controllers/language.controller');
-const { subscriptionController } = require('../../controllers');
+const { ContactValidation } = require('../../validations');
+const { contactController } = require('../../controllers');
 
 const router = express.Router();
 
 router
   .route('/')
-  .get(  subscriptionController.getAllSubcription)
-  // .post(auth('manageCategories'),  subscriptionController.createSubcription);
+  .get(auth('getCategories'), validate(ContactValidation.getAllContact), contactController.getAllContact)
+  .post(auth('manageCategories'), validate(ContactValidation.createContact), contactController.createContact);
 
+router
+  .route('/:contactId')
+  .get(auth('manageCategories'),  contactController.getContact)
+  .patch(auth('manageCategories'), validate(ContactValidation.updateContact), contactController.updateContact);
 
 module.exports = router;
 

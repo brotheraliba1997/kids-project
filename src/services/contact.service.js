@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Package } = require('../models');
+const { Language, Contact } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -7,42 +7,42 @@ const ApiError = require('../utils/ApiError');
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createPackage = async (userBody) => {
+const createContact = async (userBody) => {
   try {
-    return Package.create(userBody);
+    return Contact.create(userBody);
   } catch (err) {
-    console.error('Error fetching packages:', err);
+    console.error('Error fetching Language:', err);
     throw new ApiError(httpStatus.BAD_REQUEST, err);
   }
 };
 
-const getAllPackages = async (filter, options) => {
-  filter.softDelete = false;
+const getAllContact = async (filter, options) => {
+  filter.softDelete = false
   try {
-    return await Package.paginate(filter, options);
+    return await Contact.paginate(filter, options);
   } catch (err) {
     console.error('Error fetching packages:', err);
     throw err;
   }
 };
 
-const getPackage = async (id) => {
-  const packageFound = await getUserById(id);
-  if (!packageFound) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Program not found');
+
+const getContact = async (id) => {
+  const ContactFound = await getUserById(id);
+  if (!ContactFound) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'category not found');
   }
-  return packageFound;
+  return ContactFound;
 };
 
-
-const updatePackage = async (id, updateBody) => {
-  const updateOnePackage = await Package.findById(id);
-  if (!updateOnePackage) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Program not found');
+const updateContact = async (id, updateBody) => {
+  const updateOneContact = await Contact.findById(id);
+  if (!updateOneContact) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'language not found');
   }
-  Object.assign(updateOnePackage, updateBody);
-  await updateOnePackage.save();
-  return updateOnePackage;
+  Object.assign(updateOneContact, updateBody);
+  await updateOneContact.save();
+  return updateOneContact;
 };
 
 /**
@@ -55,7 +55,7 @@ const updatePackage = async (id, updateBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryUsers = async (filter, options) => {
-  const users = await Package.paginate(filter, options);
+  const users = await Contact.paginate(filter, options);
   return users;
 };
 
@@ -65,7 +65,7 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return Package.findById(id);
+  return Contact.findById(id);
 };
 
 /**
@@ -74,7 +74,7 @@ const getUserById = async (id) => {
  * @returns {Promise<User>}
  */
 const getUserByEmail = async (email) => {
-  return User.findOne({ email });
+  return Contact.findOne({ email });
 };
 
 /**
@@ -111,13 +111,13 @@ const deleteUserById = async (userId) => {
 };
 
 module.exports = {
-  createPackage,
-  getAllPackages,
-  getPackage,
-  updatePackage,
+  updateContact,
+  getAllContact,
+  createContact,
   queryUsers,
   getUserById,
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getContact,
 };

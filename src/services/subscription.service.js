@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { Package, Subscription, User } = require('../models');
 const ApiError = require('../utils/ApiError');
+const moment = require('moment');
 
 /**
  * Create a user
@@ -26,12 +27,15 @@ const createSubscription = async (userBody, userId) => {
       throw new ApiError(httpStatus.BAD_REQUEST, 'This package is not available');
     }
 
+    const endDate = calculateEndDate(packageFind.validity);
+
     const subscription = new Subscription({
       user: userId,
       type: packageFind.type,
       amount: packageFind.amount,
-      validity: new Date(packageFind.validity).toISOString(),
+      validity: packageFind.validity,
       package: packageId,
+      endDate: endDate
     });
 
     await subscription.save();
@@ -40,6 +44,25 @@ const createSubscription = async (userBody, userId) => {
     console.error('Error fetching Subscription:', err);
     throw err;
   }
+};
+
+
+const calculateEndDate = (validity) => {
+  const now = moment();
+  const validityParts = validity.split(' '); 
+
+  if (validityParts.length === 2) {
+    const value = parseInt(validityParts[0], 10);
+    const unit = validityParts[1].toLowerCase(); 
+
+    if (unit === 'days' || unit === 'day') {
+      return now.add(value, 'days').format('YYYY-MM-DD'); 
+    } else if (unit === 'months' || unit === 'month') {
+      return now.add(value, 'months').format('YYYY-MM-DD'); 
+    }
+  }
+
+  throw new Error('Invalid validity format');
 };
 
 /**

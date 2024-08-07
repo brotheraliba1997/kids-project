@@ -2,39 +2,41 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const { tokenTypes } = require('../config/tokens');
 
-const packageSchema = mongoose.Schema(
+const contactSchema = mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    amount: {
+    fullName: {
       type: String,
       required: true,
     },
 
-    type: {
+    email: {
       type: String,
       required: true,
-      enum: ['Individual', 'Business'],
+     
     },
 
-    validity: {
+    phone: {
       type: String,
       required: true,
+     
     },
 
-    content: {
+    Subject : {
       type: String,
       required: true,
+     
     },
+
+    Message : {
+      type: String,
+     
+    },
+
     softDelete: {
       type: Boolean,
       default: false,
       private:true
     },
-
-
   },
   {
     timestamps: true,
@@ -42,12 +44,12 @@ const packageSchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-packageSchema.plugin(toJSON);
-packageSchema.plugin(paginate);
+contactSchema.plugin(toJSON);
+contactSchema.plugin(paginate);
 
 /**
  * @typedef Token
  */
-const Package = mongoose.model('Package', packageSchema);
+const Contact = mongoose.model('Contact', contactSchema);
 
-module.exports = Package;
+module.exports = Contact;
