@@ -32,8 +32,9 @@ const createVisit = async (req) => {
     }
 
     if (!visit.ips.includes(Ip)) {
-      visit.count += 1;
+      // visit.count += 1;
       visit.ips.push(Ip);
+      visit.count =visit.ips.length;
     }
     await visit.save();
     return { message: 'Visit counted', totalVisits: visit.count };
