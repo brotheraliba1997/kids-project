@@ -11,7 +11,7 @@ const router = express.Router();
 router
   .route('/')
   .get(auth('getCategories'), validate(ContactValidation.getAllContact), contactController.getAllContact)
-  .post(auth('manageCategories'), validate(ContactValidation.createContact), contactController.createContact);
+  .post(validate(ContactValidation.createContact), contactController.createContact);
 
 router
   .route('/:contactId')

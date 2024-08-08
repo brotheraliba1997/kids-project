@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Language, Program, Visit } = require('../models');
+const { Language, Program, Visit, User, UploadVideo } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -45,6 +45,14 @@ const createVisit = async (req) => {
 
 const getAllVisit = async (filter, options) => {
   try {
+
+    const totalUser = await User.count({ role: "parent" });
+   
+
+    const totalVideo = await UploadVideo.count({ videoUpload: { $ne: null } });
+    console.log(`Total documents: ${totalVideo}`);
+
+
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
 
@@ -58,7 +66,7 @@ const getAllVisit = async (filter, options) => {
     });
    
     const todayVisit = visit ? visit.count : 0;
-    return todayVisit;
+    return {todayVisit , totalUser ,totalVideo };
   } catch (err) {
     console.error('Error fetching visit:', err);
     throw err;
