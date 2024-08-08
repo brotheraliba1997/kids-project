@@ -10,7 +10,9 @@ const createSubcription = catchAsync(async (req, res) => {
 });
 
 const getAllSubcription = catchAsync(async (req, res) => {
-  const user = await subscriptionService.getAllSubscription();
+  const filter = pick(req.query, []);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const user = await subscriptionService.getAllSubscription(filter,options);
   console.log(user);
   res.status(httpStatus.CREATED).send(user);
 });

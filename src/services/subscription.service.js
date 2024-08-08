@@ -9,10 +9,13 @@ const moment = require('moment');
  * @returns {Promise<User>}
  */
 
-
-const getAllSubscription = async () => {
+const getAllSubscription = async (filter, options) => {
+  filter.softDelete = false;
   try {
-    return await Subscription.find();
+    options.populate = [{ path: 'package' }, { path: 'user' }];
+
+    const result = await Subscription.paginate(filter, { ...options });
+    return result;
   } catch (err) {
     console.error('Error fetching Subscription:', err);
     throw err;
@@ -35,7 +38,7 @@ const createSubscription = async (userBody, userId) => {
       amount: packageFind.amount,
       validity: packageFind.validity,
       package: packageId,
-      endDate: endDate
+      endDate: endDate,
     });
 
     await subscription.save();
@@ -46,19 +49,18 @@ const createSubscription = async (userBody, userId) => {
   }
 };
 
-
 const calculateEndDate = (validity) => {
   const now = moment();
-  const validityParts = validity.split(' '); 
+  const validityParts = validity.split(' ');
 
   if (validityParts.length === 2) {
     const value = parseInt(validityParts[0], 10);
-    const unit = validityParts[1].toLowerCase(); 
+    const unit = validityParts[1].toLowerCase();
 
     if (unit === 'days' || unit === 'day') {
-      return now.add(value, 'days').format('YYYY-MM-DD'); 
+      return now.add(value, 'days').format('YYYY-MM-DD');
     } else if (unit === 'months' || unit === 'month') {
-      return now.add(value, 'months').format('YYYY-MM-DD'); 
+      return now.add(value, 'months').format('YYYY-MM-DD');
     }
   }
 

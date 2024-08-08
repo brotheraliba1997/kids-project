@@ -12,7 +12,7 @@ const SubscriptionSchema = mongoose.Schema(
 
     package: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Packages',
+      ref: 'Package',
       required: true,
     },
     startDate: {
@@ -35,6 +35,12 @@ const SubscriptionSchema = mongoose.Schema(
       type: String,
       enum: ['active', 'pending', 'cancelled'],
       default: 'pending',
+    },
+
+    softDelete: {
+      type: Boolean,
+      default: false,
+      private:true
     },
   },
   {
