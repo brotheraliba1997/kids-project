@@ -34,7 +34,7 @@ const createVisit = async (req) => {
     if (!visit.ips.includes(Ip)) {
       // visit.count += 1;
       visit.ips.push(Ip);
-      visit.count =visit.ips.length;
+      visit.count = visit.ips.length;
     }
     await visit.save();
     return { message: 'Visit counted', totalVisits: visit.count };
@@ -46,13 +46,33 @@ const createVisit = async (req) => {
 
 const getAllVisit = async (filter, options) => {
   try {
-
-    const totalUser = await User.count({ role: "parent" });
-   
+    const totalUser = await User.count({ role: 'parent' });
 
     const totalVideo = await UploadVideo.count({ videoUpload: { $ne: null } });
     console.log(`Total documents: ${totalVideo}`);
 
+    const totalVisit = await Visit.find();
+    let totalCount = 0;
+    for (var i = 0; i <= totalVisit.length; i++) {
+      totalCount += totalVisit[i]?.count || 0; 
+      console.log(`Total visit: ${totalVisit[i]?.count}`);
+    }
+    console.log(`Total count of visits: ${totalCount}`);
+
+    const result = await Visit.aggregate([
+      {
+        $group: {
+          _id: null,              
+          totalCount: { $sum: "$count" }  
+        }
+      }
+    ]);
+    
+    console.log(`Total Count: ${result[0]?.totalCount}`);
+
+    result.forEach(day => {
+      console.log(`Date: ${day.totalCount}`);
+    });
 
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
@@ -65,9 +85,9 @@ const getAllVisit = async (filter, options) => {
         $lt: endOfDay,
       },
     });
-   
+
     const todayVisit = visit ? visit.count : 0;
-    return {todayVisit , totalUser ,totalVideo };
+    return { todayVisit, totalUser, totalVideo, totalVisit };
   } catch (err) {
     console.error('Error fetching visit:', err);
     throw err;
