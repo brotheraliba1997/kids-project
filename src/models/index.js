@@ -8,3 +8,4 @@ module.exports.Program = require('./program.model');
 module.exports.UploadVideo = require('./uploadVideo.model');
 module.exports.Visit = require('./visit.model');
 module.exports.Contact = require('./contact.model');
+module.exports.Permission = require('./permission.model');

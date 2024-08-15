@@ -11,3 +11,4 @@ module.exports.ProgramService = require('./program.service');
 module.exports.visitService = require('./visit.service');
 module.exports.subscriptionService = require('./subscription.service');
 module.exports.contactService = require('./contact.service');
+module.exports.permissionService = require('./permission.service');

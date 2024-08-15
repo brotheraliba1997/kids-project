@@ -9,3 +9,4 @@ module.exports.ProgramController = require('./program.controller');
 module.exports.visitController = require('./visit.controller');
 module.exports.subscriptionController = require('./subscription.controller');
 module.exports.contactController = require('./contact.controller');
+module.exports.permissionController = require('./permission.controller');
