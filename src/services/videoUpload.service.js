@@ -83,7 +83,6 @@ const CompleteMultipartUpload = async (updateBody) => {
     Bucket: process.env.BUCKET_NAME,
     Key: key,
     UploadId: uploadId,
-
     MultipartUpload: {
       Parts: parts.map((part, index) => ({
         ETag: part.etag,

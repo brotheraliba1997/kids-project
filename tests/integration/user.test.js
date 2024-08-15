@@ -251,7 +251,6 @@ describe('User routes', () => {
 
     test('should correctly sort the returned array if ascending sort param is specified', async () => {
       await insertUsers([userOne, userTwo, admin]);
-
       const res = await request(app)
         .get('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
@@ -408,7 +407,6 @@ describe('User routes', () => {
 
     test('should return 404 error if user is not found', async () => {
       await insertUsers([admin]);
-
       await request(app)
         .get(`/v1/users/${userOne._id}`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
@@ -426,14 +424,12 @@ describe('User routes', () => {
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send()
         .expect(httpStatus.NO_CONTENT);
-
       const dbUser = await User.findById(userOne._id);
       expect(dbUser).toBeNull();
     });
 
     test('should return 401 error if access token is missing', async () => {
       await insertUsers([userOne]);
-
       await request(app).delete(`/v1/users/${userOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
     });
 

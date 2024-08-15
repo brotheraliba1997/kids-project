@@ -13,7 +13,6 @@ const getAllSubscription = async (filter, options) => {
   filter.softDelete = false;
   try {
     options.populate = [{ path: 'package' }, { path: 'user' }];
-
     const result = await Subscription.paginate(filter, { ...options });
     return result;
   } catch (err) {

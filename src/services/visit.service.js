@@ -47,10 +47,8 @@ const createVisit = async (req) => {
 const getAllVisit = async (filter, options) => {
   try {
     const totalUser = await User.count({ role: 'parent' });
-
     const totalVideo = await UploadVideo.count({ videoUpload: { $ne: null } });
     console.log(`Total documents: ${totalVideo}`);
-
     const totalVisit = await Visit.find();
     let totalCount = 0;
     for (var i = 0; i <= totalVisit.length; i++) {
