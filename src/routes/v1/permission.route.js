@@ -16,7 +16,7 @@ router
 
 router
   .route('/:permissionId')
-  // .get(auth('manageProgram'), validate(ProgramValidation.getProgram) ,ProgramController.getProgram)
+  .get(auth('manageProgram') ,permissionController.getPermission)
   .patch(auth('manageProgram'),   permissionController.updatePermission);
 
 module.exports = router;
