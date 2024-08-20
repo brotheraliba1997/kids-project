@@ -21,19 +21,25 @@ const createPermission = async (userBody) => {
 };
 
 const getAllPermission = async (filter, options) => {
-  filter.softDelete = false;
+
   try {
-    return await Permission.paginate(filter, options);
+    return await Permission.find();
   } catch (err) {
     console.error('Error fetching Program:', err);
     throw err;
   }
 };
 
+const getPermission = async (id) => {
+  const permissionFound = await getUserById(id);
+  if (!permissionFound) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Program not found');
+  }
+  return permissionFound;
+};
+
 const updatePermissionById = async (permissionId, updateBody) => {
   const { actions } = updateBody;
-
-
   const permission = await Permission.findById(permissionId);
   console.log(permission, 'permission');
   if (!permission) {
@@ -68,7 +74,7 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return Package.findById(id);
+  return Permission.findById(id);
 };
 
 /**
@@ -122,4 +128,6 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getPermission
+  
 };

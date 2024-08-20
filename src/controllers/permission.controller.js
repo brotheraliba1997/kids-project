@@ -17,6 +17,12 @@ const getAllPermission = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(user);
 });
 
+const getPermission = catchAsync(async (req, res) => {
+  const { permissionId } = req.params;
+  const user = await permissionService.getPermission(permissionId);
+  res.status(httpStatus.CREATED).send(user);
+});
+
 
 const updatePermission = catchAsync(async (req, res) => {
   const { permissionId } = req.params;
@@ -28,6 +34,7 @@ const updatePermission = catchAsync(async (req, res) => {
 module.exports = {
   getAllPermission,
   createPermission,
-  updatePermission
+  updatePermission,
+  getPermission
   
 };
