@@ -19,6 +19,15 @@ const getAllVisit = catchAsync(async (req, res) => {
 });
 
 
+const getParentVisit = catchAsync(async (req, res) => {
+  const visit = await visitService.getParentVisit();
+  if (!visit) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  res.status(httpStatus.CREATED).send({visit});
+});
+
+
 
 
 
@@ -28,6 +37,7 @@ const getAllVisit = catchAsync(async (req, res) => {
 
 module.exports = {
   createVisit,
-  getAllVisit
+  getAllVisit,
+  getParentVisit
   
 };

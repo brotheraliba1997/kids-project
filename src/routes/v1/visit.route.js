@@ -10,10 +10,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .get( visitController.getAllVisit);
+  .get( visitController.getAllVisit)
+  
   router
   .route('/create')
   .get( visitController.createVisit);
+  router
+  .route("/parent")
+  .get( visitController.getParentVisit);
 
 // router
 //   .route('/:programId')

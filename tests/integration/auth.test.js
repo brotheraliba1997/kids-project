@@ -59,10 +59,8 @@ describe('Auth routes', () => {
     test('should return 400 error if email is already used', async () => {
       await insertUsers([userOne]);
       newUser.email = userOne.email;
-
       await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
     });
-
     test('should return 400 error if password length is less than 8 characters', async () => {
       newUser.password = 'passwo1';
       await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
@@ -137,10 +135,8 @@ describe('Auth routes', () => {
       await insertUsers([userOne]);
       const expires = moment().add(config.jwt.refreshExpirationDays, 'days');
       const refreshToken = tokenService.generateToken(userOne._id, expires, tokenTypes.REFRESH);
-
       await request(app).post('/v1/auth/logout').send({ refreshToken }).expect(httpStatus.NOT_FOUND);
     });
-
     test('should return 404 error if refresh token is blacklisted', async () => {
       await insertUsers([userOne]);
       const expires = moment().add(config.jwt.refreshExpirationDays, 'days');

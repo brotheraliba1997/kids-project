@@ -56,7 +56,6 @@ const getAllVisit = async (filter, options) => {
       console.log(`Total visit: ${totalVisit[i]?.count}`);
     }
     console.log(`Total count of visits: ${totalCount}`);
-
     const result = await Visit.aggregate([
       {
         $group: {
@@ -91,6 +90,23 @@ const getAllVisit = async (filter, options) => {
     throw err;
   }
 };
+
+
+
+const getParentVisit = async (filter, options) => {
+  try {
+    const CountingProgram = await Program.count({ name: '123 Numbers' });
+    const ReadingRockets = await Program.count({ name: 'Reading Rockets' });
+    const LangugeLearning = await Program.count({ name: 'Languge Learning' });
+    const Adventures = await Program.count({ name: 'ABC Adventures' });
+    return { CountingProgram , ReadingRockets , LangugeLearning, Adventures }
+  }
+  catch (err) {
+    console.error('Error fetching visit:', err);
+    throw err;
+  }
+
+}
 
 /**
  * Query for users
@@ -165,4 +181,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getParentVisit
 };
