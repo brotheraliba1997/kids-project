@@ -23,7 +23,7 @@ const videoUploadSchema = mongoose.Schema(
 
     program: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Programs',
+      ref: 'Program',
       required: true,
     },
 

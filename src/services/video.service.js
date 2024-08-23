@@ -17,7 +17,7 @@ const createVideo = async (userBody) => {
 };
 
 const getUserById = async (id) => {
-  return UploadVideo.findById(id).populate('language').populate('category');
+  return UploadVideo.findById(id).populate('language').populate('category').populate('program')
 };
 
 const getAllVideos = async (filter, options) => {
@@ -26,6 +26,9 @@ const getAllVideos = async (filter, options) => {
     options.populate = [
       { path: 'language', select: 'name' },
       { path: 'category', select: 'name' },
+      { path: 'program', select: 'name' },
+  
+   
     ];
     const result = await UploadVideo.paginate(filter, {
       ...options,

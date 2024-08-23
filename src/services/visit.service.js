@@ -95,11 +95,12 @@ const getAllVisit = async (filter, options) => {
 
 const getParentVisit = async (filter, options) => {
   try {
-    const CountingProgram = await Program.count({ name: '123 Numbers' });
-    const ReadingRockets = await Program.count({ name: 'Reading Rockets' });
-    const LangugeLearning = await Program.count({ name: 'Languge Learning' });
-    const Adventures = await Program.count({ name: 'ABC Adventures' });
+    const CountingProgram = await UploadVideo.count({ program: '66c729e3ff935f4e8465364b' });
+    const ReadingRockets = await UploadVideo.count({ program: '66b0eb25a890bd16706ca336' });
+    const LangugeLearning = await UploadVideo.count({ program: '66c7298dff935f4e84653636' });
+    const Adventures = await UploadVideo.count({ program: '66b0eafca890bd16706ca330' });
     return { CountingProgram , ReadingRockets , LangugeLearning, Adventures }
+   
   }
   catch (err) {
     console.error('Error fetching visit:', err);
