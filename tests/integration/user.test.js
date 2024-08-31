@@ -48,15 +48,12 @@ describe('User routes', () => {
     test('should be able to create an admin as well', async () => {
       await insertUsers([admin]);
       newUser.role = 'admin';
-
       const res = await request(app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(newUser)
         .expect(httpStatus.CREATED);
-
       expect(res.body.role).toBe('admin');
-
       const dbUser = await User.findById(res.body.id);
       expect(dbUser.role).toBe('admin');
     });
@@ -386,7 +383,6 @@ describe('User routes', () => {
 
     test('should return 200 and the user object if admin is trying to get another user', async () => {
       await insertUsers([userOne, admin]);
-
       await request(app)
         .get(`/v1/users/${userOne._id}`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
@@ -454,7 +450,6 @@ describe('User routes', () => {
 
     test('should return 400 error if userId is not a valid mongo id', async () => {
       await insertUsers([admin]);
-
       await request(app)
         .delete('/v1/users/invalidId')
         .set('Authorization', `Bearer ${adminAccessToken}`)
@@ -464,7 +459,6 @@ describe('User routes', () => {
 
     test('should return 404 error if user already is not found', async () => {
       await insertUsers([admin]);
-
       await request(app)
         .delete(`/v1/users/${userOne._id}`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
@@ -545,15 +539,13 @@ describe('User routes', () => {
 
     test('should return 400 error if userId is not a valid mongo id', async () => {
       await insertUsers([admin]);
-      const updateBody = { name: faker.name.findName() };
-
+      const updateBody = { name: faker.name.findName()};
       await request(app)
         .patch(`/v1/users/invalidId`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
     });
-
     test('should return 400 if email is invalid', async () => {
       await insertUsers([userOne]);
       const updateBody = { email: 'invalidEmail' };

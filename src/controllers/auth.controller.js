@@ -4,7 +4,8 @@ const { authService, userService, tokenService, emailService, subscriptionServic
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
-  const subscription  = await subscriptionService.createSubscription(req.body, user._id)
+
+  const subscription  = await subscriptionService.createSubscription(req.body, user?._id)
   const tokens = await tokenService.generateAuthTokens(user);
   res.status(httpStatus.CREATED).send({ user, tokens, subscription });
 });

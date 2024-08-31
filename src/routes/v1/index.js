@@ -9,6 +9,7 @@ const contactRoute = require('./contact.route');
 const visitRoute = require('./visit.route');
 const subscriptionRoute = require('./subscription.route');
 const permissionRoute = require('./permission.route');
+const notificationRoute = require('./notification.route');
 
 const videoRoute = require('./video.route');
 const videoUploadRoute = require('./uploadVideo.route');
@@ -73,6 +74,11 @@ const defaultRoutes = [
   {
     path: '/video-upload',
     route: videoUploadRoute,
+  },
+
+  {
+    path: '/notification',
+    route: notificationRoute,
   },
 ];
 

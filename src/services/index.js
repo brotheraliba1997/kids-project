@@ -12,3 +12,4 @@ module.exports.visitService = require('./visit.service');
 module.exports.subscriptionService = require('./subscription.service');
 module.exports.contactService = require('./contact.service');
 module.exports.permissionService = require('./permission.service');
+module.exports.notificationService = require('./notification.service');

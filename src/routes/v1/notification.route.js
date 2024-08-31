@@ -3,14 +3,17 @@ const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const languageValidation = require('../../validations/language.validation');
 const languageController = require('../../controllers/language.controller');
-const { subscriptionController } = require('../../controllers');
+const { subscriptionController, notificationController } = require('../../controllers');
 
 const router = express.Router();
 
 router
   .route('/')
-  .get(  subscriptionController.getAllSubcription)
-  .post(auth('manageCategories'),  subscriptionController.createSubcription);
+  .get(auth('manageCategories'),  notificationController.getAllNotification)
+
+  router
+  .route('/:notificationId')
+  .patch(auth('manageCategories'),  notificationController.updateNotification);
 
 
 module.exports = router;

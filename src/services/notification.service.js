@@ -1,71 +1,60 @@
 const httpStatus = require('http-status');
-const { Package, Subscription, User } = require('../models');
+const { Language, Notification, User } = require('../models');
 const ApiError = require('../utils/ApiError');
-const moment = require('moment');
 
 /**
  * Create a user
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-
-const getAllSubscription = async (filter, options) => {
-  filter.softDelete = false;
+const createNotification = async (notificationMessgae ) => {
   try {
-    options.populate = [{ path: 'package' }, { path: 'user' }];
-    const result = await Subscription.paginate(filter, { ...options });
-    return result;
-  } catch (err) {
-    console.error('Error fetching Subscription:', err);
-    throw err;
-  }
-};
-
-const createSubscription = async (userBody, userId) => {
-  console.log(userId, "userId")
-  const { packageId } = userBody;
-  try {
-    let packageFind = await Package.findById(packageId);
-    if (!packageFind) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'This package is not available');
-    }
-
-    const endDate = calculateEndDate(packageFind?.validity);
-    console.log(endDate, "endDate")
-
-    const subscription = new Subscription({
-      user: userId,
-      type: packageFind.type,
-      amount: packageFind.amount,
-      validity: packageFind.validity,
-      package: packageId,
-      endDate: endDate,
+    const newNotification = new Notification({
+      title: notificationMessgae?.title,
+      description: notificationMessgae?.description,
+      notificationType: notificationMessgae?.notificationType,
+      user: notificationMessgae?.user,
     });
 
-    await subscription.save();
-    return subscription;
+    await newNotification.save();
   } catch (err) {
-    console.error('Error fetching Subscription:', err);
+    console.error('Error creating Notification:', err);
+    throw new ApiError(httpStatus.BAD_REQUEST, err);
+  }
+};
+
+const getAllNotification = async (filter, options) => {
+  filter.softDelete = false;
+  try {
+    options.populate = [{ path: 'user' }];
+    return await Notification.paginate(filter, { ...options });
+  } catch (err) {
+    console.error('Error fetching packages:', err);
     throw err;
   }
 };
 
-const calculateEndDate = (validity) => {
-  const now = moment();
-  const validityParts = validity.split(' ');
-
-  if (validityParts.length === 2) {
-    const value = parseInt(validityParts[0], 10);
-    const unit = validityParts[1].toLowerCase();
-
-    if (unit === 'days' || unit === 'day') {
-      return now.add(value, 'days').format('YYYY-MM-DD');
-    } else if (unit === 'months' || unit === 'month') {
-      return now.add(value, 'months').format('YYYY-MM-DD');
-    }
+const getNotification = async (id) => {
+  const notificationFound = await getUserById(id);
+  if (!notificationFound) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'category not found');
   }
+  return notificationFound;
+};
 
-  throw new Error('Invalid validity format');
+const updateNotification = async (id, updateBody) => {
+  // console.log(updateBody, "updateBody")
+  const updatedNotification = await Notification.findByIdAndUpdate(
+    id,
+    { $addToSet: { isRead: updateBody?.isRead } },  // Add userId to isRead array only if it does not already exist
+    { new: true }  // Return the updated document
+  );
+  if (!updatedNotification) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'notification not found');
+  }
+  
+ 
+  return updatedNotification;
 };
 
 /**
@@ -88,7 +77,7 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return User.findById(id);
+  return Notification.findById(id);
 };
 
 /**
@@ -97,7 +86,7 @@ const getUserById = async (id) => {
  * @returns {Promise<User>}
  */
 const getUserByEmail = async (email) => {
-  return User.findOne({ email });
+  return Notification.findOne({ email });
 };
 
 /**
@@ -134,11 +123,13 @@ const deleteUserById = async (userId) => {
 };
 
 module.exports = {
-  createSubscription,
-  getAllSubscription,
+  updateNotification,
+  getAllNotification,
+  createNotification,
   queryUsers,
   getUserById,
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getNotification,
 };

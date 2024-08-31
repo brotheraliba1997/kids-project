@@ -199,7 +199,6 @@ describe('Auth routes', () => {
       const expires = moment().subtract(1, 'minutes');
       const refreshToken = tokenService.generateToken(userOne._id, expires);
       await tokenService.saveToken(refreshToken, userOne._id, expires, tokenTypes.REFRESH);
-
       await request(app).post('/v1/auth/refresh-tokens').send({ refreshToken }).expect(httpStatus.UNAUTHORIZED);
     });
 
@@ -229,7 +228,6 @@ describe('Auth routes', () => {
 
     test('should return 400 if email is missing', async () => {
       await insertUsers([userOne]);
-
       await request(app).post('/v1/auth/forgot-password').send().expect(httpStatus.BAD_REQUEST);
     });
 
@@ -260,7 +258,6 @@ describe('Auth routes', () => {
 
     test('should return 400 if reset password token is missing', async () => {
       await insertUsers([userOne]);
-
       await request(app).post('/v1/auth/reset-password').send({ password: 'password2' }).expect(httpStatus.BAD_REQUEST);
     });
 
@@ -269,7 +266,6 @@ describe('Auth routes', () => {
       const expires = moment().add(config.jwt.resetPasswordExpirationMinutes, 'minutes');
       const resetPasswordToken = tokenService.generateToken(userOne._id, expires, tokenTypes.RESET_PASSWORD);
       await tokenService.saveToken(resetPasswordToken, userOne._id, expires, tokenTypes.RESET_PASSWORD, true);
-
       await request(app)
         .post('/v1/auth/reset-password')
         .query({ token: resetPasswordToken })

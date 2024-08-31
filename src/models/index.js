@@ -9,3 +9,4 @@ module.exports.UploadVideo = require('./uploadVideo.model');
 module.exports.Visit = require('./visit.model');
 module.exports.Contact = require('./contact.model');
 module.exports.Permission = require('./permission.model');
+module.exports.Notification = require('./notification.model');

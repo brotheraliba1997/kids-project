@@ -2,10 +2,13 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { packageService, subscriptionService } = require('../services');
+const { packageService, subscriptionService, notificationService } = require('../services');
 
 const createSubcription = catchAsync(async (req, res) => {
-  const user = await subscriptionService.createSubscription(req.body);
+  const userId = req.user._id
+  console.log(userId, "userIduserId")
+  const user = await subscriptionService.createSubscription(req.body, userId);
+  const Notification = await notificationService.createNotification(userId);
   res.status(httpStatus.CREATED).send(user);
 });
 
