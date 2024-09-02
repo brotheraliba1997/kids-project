@@ -27,7 +27,8 @@ const getNotification  = catchAsync(async (req, res) => {
 
 const updateNotification  = catchAsync(async (req, res) => {
   const { notificationId } = req.params;
-  const user = await notificationService.updateNotification(notificationId, req.body);
+  let userID = req?.user?._id
+  const user = await notificationService.updateNotification(notificationId, userID);
   console.log(user);
   res.status(httpStatus.CREATED).send(user);
 });

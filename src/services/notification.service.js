@@ -42,11 +42,11 @@ const getNotification = async (id) => {
   return notificationFound;
 };
 
-const updateNotification = async (id, updateBody) => {
+const updateNotification = async (id, userID) => {
   // console.log(updateBody, "updateBody")
   const updatedNotification = await Notification.findByIdAndUpdate(
     id,
-    { $addToSet: { isRead: updateBody?.isRead } },  // Add userId to isRead array only if it does not already exist
+    { $addToSet: { isRead: userID } },  // Add userId to isRead array only if it does not already exist
     { new: true }  // Return the updated document
   );
   if (!updatedNotification) {

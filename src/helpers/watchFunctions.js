@@ -1,24 +1,17 @@
-const { Package } = require("../models");
+const { Package, Notification } = require("../models");
 
 
 
 const notificationDocumentChangeHelper = async ({ payload, io }) => {
-
-    if (payload) {
-   
-        console.log(payload, "payload")
-      const populatedNotification = await Package.findById(payload.documentKey?._id)
-    //   console.log(populatedNotification, "populatedNotification")
-      io.emit('welcome Message', populatedNotification);
-      
-    
-     
+    if (payload?.operationType === "insert") {        
+      const populatedNotification = await Notification.findById(payload.documentKey?._id)
+      console.log(populatedNotification, "populatedNotification")
+      io.emit('new-notification', populatedNotification);
     }
   };
 
 
   module.exports = {
     notificationDocumentChangeHelper,
-
   };
   

@@ -11,36 +11,58 @@ const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
 
+// const io = new Server(server, {
+//   cors: {
+//     origin: '*', // React app ka URL
+//     methods: ['GET', 'POST'],
+//   },
+// });
+
+
 const io = new Server(server, {
+  // transports: ['polling'],
+  // cors: {
+  //   cors: {
+  //     origin: '*',
+  //     methods: ['GET', 'POST'],
+  //   },
+  // },
+
+  // {
+  transports: ['websocket', 'polling'],
+  // transports: ["websocket", "polling"],
+  // allowEIO3: true,
+  // wsEngine: require("eiows").Server,
+  perMessageDeflate: false,
+  // perMessageDeflate: {
+  //   // threshold: 1028,
+  //   threshold: 32768,
+  //   // threshold: 800000,
+  // },
   cors: {
-    origin: ['*'], // React app ka URL
+    origin: '*',
+    // origin: await getDomains(),
+
     methods: ['GET', 'POST'],
+    credentials: true,
   },
+  // }
 });
+
 
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   logger.info('Connected to MongoDB');
   server.listen(port, () => {
     logger.info(`Listening to port ${port}`);
 
-    // io.on('connection', (socket) => {
-    //   console.log('A user connected', socket.id);
+    io.on('connection', (socket) => {
+      console.log('A user connected');
 
-    //   socket.on('chat message', (msg) => {
-    //     console.log('Received message:', msg);
-    //     io.to('room1').emit('chat message res', 'Hello Room 1 for this !', msg);
-    //   });
-
-    //   socket.on('joint room', (msg) => {
-    //     console.log('Received message:', msg);
-    //     socket.join('room1');
-    //   });
-
-    //   socket.on('disconnect', () => {
-    //     console.log('User disconnected');
-    //   });
-    // });
-    const notificationCollection = mongoose.connection.collection('packages');
+      socket.on('disconnect', () => {
+        console.log('User disconnected');
+      });
+    });
+    const notificationCollection = mongoose.connection.collection('notifications');
     const notificationChangeStream = notificationCollection.watch();
 
     notificationChangeStream.on('change', (change) => {

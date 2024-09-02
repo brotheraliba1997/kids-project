@@ -13,7 +13,7 @@ router
 
   router
   .route('/:notificationId')
-  .patch(auth('manageCategories'),  notificationController.updateNotification);
+  .get(auth('manageCategories'),  notificationController.updateNotification);
 
 
 module.exports = router;
