@@ -11,6 +11,8 @@ const createNotification = catchAsync(async (req, res) => {
 
 const getAllNotification  = catchAsync(async (req, res) => {
   const filter = pick(req.query, []);
+  const userID = req.user._id
+  filter.user = userID
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const user = await notificationService.getAllNotification(filter,options);
   console.log(user);

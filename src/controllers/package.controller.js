@@ -2,10 +2,21 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { packageService } = require('../services');
+const { packageService, notificationService } = require('../services');
+const { User } = require('../models');
 
 const createPackage = catchAsync(async (req, res) => {
+
+  const parentUserIDs = await User.find({ role: 'parent' }).select('_id');
+  const parentIDsArray = parentUserIDs.map((user) => user?._id.toString());
+  let notificationMessgae = {
+    title: 'new package',
+    description: 'A new Package is now active and available for you.',
+    notificationType: 'Package Activation',
+    user: parentIDsArray,
+  };
   const user = await packageService.createPackage(req.body);
+  const Notification = await notificationService.createNotification(notificationMessgae);
   res.status(httpStatus.CREATED).send(user);
 });
 

@@ -7,7 +7,7 @@ const ApiError = require('../utils/ApiError');
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createNotification = async (notificationMessgae ) => {
+const createNotification = async (notificationMessgae) => {
   try {
     const newNotification = new Notification({
       title: notificationMessgae?.title,
@@ -25,6 +25,7 @@ const createNotification = async (notificationMessgae ) => {
 
 const getAllNotification = async (filter, options) => {
   filter.softDelete = false;
+
   try {
     options.populate = [{ path: 'user' }];
     return await Notification.paginate(filter, { ...options });
@@ -46,14 +47,13 @@ const updateNotification = async (id, userID) => {
   // console.log(updateBody, "updateBody")
   const updatedNotification = await Notification.findByIdAndUpdate(
     id,
-    { $addToSet: { isRead: userID } },  // Add userId to isRead array only if it does not already exist
-    { new: true }  // Return the updated document
+    { $addToSet: { isRead: userID } }, // Add userId to isRead array only if it does not already exist
+    { new: true } // Return the updated document
   );
   if (!updatedNotification) {
     throw new ApiError(httpStatus.NOT_FOUND, 'notification not found');
   }
-  
- 
+
   return updatedNotification;
 };
 

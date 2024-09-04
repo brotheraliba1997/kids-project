@@ -9,11 +9,11 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(auth('manageCategories'),  notificationController.getAllNotification)
+  .get(auth('getSubcription'),  notificationController.getAllNotification)
 
   router
   .route('/:notificationId')
-  .get(auth('manageCategories'),  notificationController.updateNotification);
+  .get(auth('getSubcription'),  notificationController.updateNotification);
 
 
 module.exports = router;

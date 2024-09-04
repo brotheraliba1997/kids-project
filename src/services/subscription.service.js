@@ -21,8 +21,8 @@ const getAllSubscription = async (filter, options) => {
   }
 };
 
-const createSubscription = async (userBody, userId) => {
-  console.log(userId, "userId")
+const createSubscription = async (userBody, _id) => {
+ 
   const { packageId } = userBody;
   try {
     let packageFind = await Package.findById(packageId);
@@ -34,7 +34,7 @@ const createSubscription = async (userBody, userId) => {
     console.log(endDate, "endDate")
 
     const subscription = new Subscription({
-      user: userId,
+      user: _id,
       type: packageFind.type,
       amount: packageFind.amount,
       validity: packageFind.validity,

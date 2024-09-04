@@ -62,9 +62,9 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
         console.log('User disconnected');
       });
     });
+    
     const notificationCollection = mongoose.connection.collection('notifications');
     const notificationChangeStream = notificationCollection.watch();
-
     notificationChangeStream.on('change', (change) => {
       notificationDocumentChangeHelper({
         payload: change,

@@ -9,8 +9,8 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(  subscriptionController.getAllSubcription)
-  .post(auth('manageCategories'),  subscriptionController.createSubcription);
+  .get(auth('getSubcription'),  subscriptionController.getAllSubcription)
+  .post(auth('getSubcription'),  subscriptionController.createSubcription);
 
 
 module.exports = router;
